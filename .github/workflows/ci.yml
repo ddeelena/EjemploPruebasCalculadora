@@ -1,0 +1,30 @@
+name: Python Pipeline Calculadora
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código del repo
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11' 
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        #Como no tengo archivo de requerimientos, no instalo nada adicional. Si tuviera, sería algo como:
+        #pip install -r requirements.txt
+
+    - name: Ejecutar Pruebas Unitarias (TDD)
+      run: |
+        python -m unittest discover tests
